@@ -1,7 +1,4 @@
-require 'open-uri'
-require 'pry'
-require 'nokogiri'
-require_relative './tour.rb'
+require_relative '../config/environment.rb'
 
 class Scraper
   TOUR_PAGE = "http://phish.net/tour"
