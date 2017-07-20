@@ -2,15 +2,16 @@ require_relative '../config/environment.rb'
 class Song
 
   @@all = []
-  attr_accessor :name, :original_artist, :times_played, :debut_date, :last_played, :gap
+  attr_accessor :name, :link, :original_artist, :times_played, :debut_date, :last_played, :gap
 
-  def initialize(name="",original_artist="",times_played=0,debut="", last="", gap=0)
+  def initialize(name="",link="",original_artist="",times_played=0,debut="", last="", gap=0)
     @name = name
     @original_artist = original_artist
     @times_played = times_played
-    @debut_date = debut
-    @last_played = last
+    @debut_date = debut # later, turn this into a Show using Find method
+    @last_played = last # later, turn this into a Show using Find method
     @gap = gap
+    @@all << self
   end
 
   def self.all
