@@ -27,6 +27,18 @@ class Show
     @@all
   end
 
+  def self.find_by_date(date)
+    self.all.each do |show|
+      return show if show.date == date
+    end
+    nil
+  end
 
+  def self.find_by_name(name)
+    self.all.each do |show|
+      return show if show.name == name
+    end
+    nil
+  end
 
 end
