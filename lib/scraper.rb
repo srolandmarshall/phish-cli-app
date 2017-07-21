@@ -3,9 +3,10 @@ require_relative '../config/environment.rb'
 class Scraper
   TOURS_PAGE ||= "http://phish.net/tour"
   SONGS_PAGE ||= "http://phish.net/song/?"
+  SHOWS_PAGE ||= "http://phish.net/setlists/?"
 
   def self.scrape_tours
-    tour_page = Nokogiri::HTML(open(TOURS_PAGE))
+    page = Nokogiri::HTML(open(TOURS_PAGE))
     cells = page.css("td")
     i=0
     while i < cells.length
@@ -35,10 +36,37 @@ class Scraper
       end
       i+=6
     end
-    binding.pry
   end
 
-  self.scrape_songs
+  def self.scrape_shows
+    #shows start in 1982 and should go until current date.
+    today = DateTime.now
+    todays_date = {day: today.strftime("%d"), month: today.strftime("%m"),  year: today.strftime("%Y")}
+
+    #create a loop that counts backwards in months and resets at 12 after january and reduces year by 1 until 1982
+
+    year = todays_date[:year].to_i
+    month_i = todays_date[:month].to_i
+    day_i = todays_date[:day].to_i
+    month_s = todays_date[:month]
+    day_s = todays_date[:day]
+
+    while (year >= 1982)
+      while (month_i > 1)
+        url = SHOWS_PAGE+"year=#{year}&month=#{month_s}"
+        page = Nokogiri::HTML(open(url))
+        month_i-=1
+        binding.pry
+      end
+      month = 12
+      year-=1
+    end
+
+    binding.pry
+
+  end
+
+  self.scrape_shows
 
 
 end
