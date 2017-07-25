@@ -1,6 +1,6 @@
 class Show
 
-  attr_accessor :venue, :city, :date, :num_sets, :setlist, :notes, :rating, :jams
+  attr_accessor :venue, :city, :date, :num_sets, :setlist, :notes, :rating, :jams, :tour
 
   #setlist should be a hash with key value pairs of arrays of Songs.
 

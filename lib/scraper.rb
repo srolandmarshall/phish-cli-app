@@ -7,7 +7,7 @@ class Scraper
 
   def self.scrape_tours
     page = Nokogiri::HTML(open(TOURS_PAGE))
-    cells = page.css("td")
+    cells = page.css("table").first.css("td")
     i=0
     while i < cells.length
       name = cells[i].text
@@ -51,21 +51,13 @@ class Scraper
     month_s = todays_date[:month]
     day_s = todays_date[:day]
 
-    while (year >= 1982)
-      while (month_i > 1)
-        url = SHOWS_PAGE+"year=#{year}&month=#{month_s}"
-        page = Nokogiri::HTML(open(url))
-        month_i-=1
-        binding.pry
-      end
-      month = 12
-      year-=1
-    end
+
 
     binding.pry
 
   end
 
+  self.scrape_tours
   self.scrape_shows
 
 
