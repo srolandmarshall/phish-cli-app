@@ -1,8 +1,9 @@
+require_relative '../config/environment.rb'
 class Show
 
   attr_accessor :venue, :city, :date, :num_sets, :setlist, :notes, :rating, :jams, :tour
 
-  #setlist should be a hash with key value pairs of arrays of Songs.
+  #setlist should be an object with key value pairs of arrays of Songs.
 
   #date should be a hash with key value pairs of day, month, year, name
 

@@ -39,6 +39,8 @@ class Scraper
   end
 
   def self.scrape_show(page)
+    venue = page.css("div.setlist-venue").css(".hideover768").text
+    location = page.css("div.setlist-location").text
     binding.pry
   end
 
@@ -47,9 +49,10 @@ class Scraper
     Tour.all.each do |tour|
       links = []
       tour_page = Nokogiri::HTML(open(tour.link))
-      tour_page.css("a").each {|link| links << link["href"] if link["href"] =~ /setlists\/phish/}
+      tour_page.css("div.tpcmainbox").css("a").each {|link| links << link["href"] if link["href"] =~ /setlists\/phish/}
       links.each do |link|
-        show_page = Nokogiri::HTML(open("http://phish.net/#{link}"))
+        show_page = Nokogiri::HTML(open("http://phish.net#{link}"))
+        binding.pry
         scrape_show(show_page)
       end
     end
