@@ -38,23 +38,21 @@ class Scraper
     end
   end
 
-  def self.scrape_shows
-    #shows start in 1982 and should go until current date.
-    today = DateTime.now
-    todays_date = {day: today.strftime("%d"), month: today.strftime("%m"),  year: today.strftime("%Y")}
-
-    #create a loop that counts backwards in months and resets at 12 after january and reduces year by 1 until 1982
-
-    year = todays_date[:year].to_i
-    month_i = todays_date[:month].to_i
-    day_i = todays_date[:day].to_i
-    month_s = todays_date[:month]
-    day_s = todays_date[:day]
-
-
-
+  def self.scrape_show(page)
     binding.pry
+  end
 
+  def self.scrape_shows
+
+    Tour.all.each do |tour|
+      links = []
+      tour_page = Nokogiri::HTML(open(tour.link))
+      tour_page.css("a").each {|link| links << link["href"] if link["href"] =~ /setlists\/phish/}
+      links.each do |link|
+        show_page = Nokogiri::HTML(open("http://phish.net/#{link}"))
+        scrape_show(show_page)
+      end
+    end
   end
 
   self.scrape_tours
