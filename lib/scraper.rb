@@ -64,16 +64,16 @@ class Scraper
     jams
   end
 
-
   def self.scrape_show(page)
     venue = page.css("div.setlist-venue").css(".hideover768").text
     location = page.css("div.setlist-location").text
     setlist = get_setlist(page)
     date = page.css("span.setlist-date").css("a")[1].text
     notes = page.css("div.setlist-notes").text
+    rating = page.css("div.permalink-rating").text.split(" ")[3].split("/")[0].to_f
     jams = get_jams(page)
-
-    binding.pry
+    tour = Tour.find_by_name(page.css("h4.bs-callout").css("a")[0].text)
+    Show.new(tour, date, venue, location, setlist, notes, rating, jams)
   end
 
   def self.scrape_shows
@@ -84,9 +84,11 @@ class Scraper
       tour_page.css("div.tpcmainbox").css("a").each {|link| links << link["href"] if link["href"] =~ /setlists\/phish/}
       links.each do |link|
         show_page = Nokogiri::HTML(open("http://phish.net#{link}"))
-        scrape_show(show_page)
+        tour.shows << scrape_show(show_page)
+        puts "Scraped page #{tour.shows.last.date}"
       end
     end
+    binding.pry
   end
 
   self.scrape_songs

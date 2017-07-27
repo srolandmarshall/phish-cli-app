@@ -1,15 +1,13 @@
 require_relative '../config/environment.rb'
 class Show
 
-  attr_accessor :venue, :city, :date, :num_sets, :notes, :rating, :jams, :tour
+  attr_accessor :venue, :city, :date, :notes, :rating, :jams, :tour
 
-  #date should be an object with day, month, year, name
-
-  #other shows on this date??
+  #date should maybe be an object with day, month, year, name if I want to do other shows on this date??
 
   @@all = []
 
-  def initialize(tour=Tour.new, date={}, venue="", city="", setlist={}, notes="", rating=1.1, jams=[])
+  def initialize(tour=Tour.new, date="", venue="", city="", setlist=Setlist.new, notes="", rating=1.1, jams=[])
     @date = date
     @venue = venue
     @city = city
@@ -17,7 +15,7 @@ class Show
     @notes = notes
     @rating = rating
     @jams = jams
-    @num_sets = setlist.length-1
+    @@all << self
   end
 
 
@@ -47,5 +45,5 @@ class Show
   def setlist(setlist)
     Setlist.display(setlist)
   end
-  
+
 end

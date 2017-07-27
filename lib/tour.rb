@@ -11,8 +11,16 @@ class Tour
     @name = name
     @year = year
     @num_shows = num_shows
+    @shows = shows
     @link = "http://phish.net#{link}"
     @@all << self
+  end
+
+  def self.find_by_name(name)
+    self.all.each do |tour|
+      return tour if tour.name == name
+    end
+    nil
   end
 
   def self.all
