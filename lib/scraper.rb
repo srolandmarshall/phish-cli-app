@@ -38,9 +38,29 @@ class Scraper
     end
   end
 
+  def self.get_setlist(page)
+    set1, set2, set3, set4, encore = [],[],[],[],[]
+    page.css("span.set-label").each do |set|
+      songs = []
+      page.css("div.setlist-body").css("p").each do |setlist|
+        setlist.css("a").each do |song|
+          songs << Song.find_by_name(song.text)
+        end
+      set1 = songs if set.text == "SET 1"
+      set2 = songs if set.text == "SET 2"
+      set3 = songs if set.text == "SET 3"
+      set4 = songs if set.text == "SET 4"
+      encore = songs if set.text == "ENCORE"
+      end
+      Setlist.new(set1, set2, set3, set4, encore)
+    end
+  end
+
+
   def self.scrape_show(page)
     venue = page.css("div.setlist-venue").css(".hideover768").text
     location = page.css("div.setlist-location").text
+    setlist = Setlist.new(get_setlist(page))
     binding.pry
   end
 
@@ -52,12 +72,12 @@ class Scraper
       tour_page.css("div.tpcmainbox").css("a").each {|link| links << link["href"] if link["href"] =~ /setlists\/phish/}
       links.each do |link|
         show_page = Nokogiri::HTML(open("http://phish.net#{link}"))
-        binding.pry
         scrape_show(show_page)
       end
     end
   end
 
+  self.scrape_songs
   self.scrape_tours
   self.scrape_shows
 

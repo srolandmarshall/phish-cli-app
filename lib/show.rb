@@ -1,11 +1,10 @@
 require_relative '../config/environment.rb'
 class Show
 
-  attr_accessor :venue, :city, :date, :num_sets, :setlist, :notes, :rating, :jams, :tour
+  attr_accessor :venue, :city, :date, :num_sets, :notes, :rating, :jams, :tour
+  attr_reader :setlist
 
-  #setlist should be an object with key value pairs of arrays of Songs.
-
-  #date should be a hash with key value pairs of day, month, year, name
+  #date should be an object with day, month, year, name
 
   #other shows on this date??
 
@@ -39,6 +38,11 @@ class Show
       return show if show.name == name
     end
     nil
+  end
+
+  def setlist=(setlist)
+    @setlist = setlist
+    setlist.show = self
   end
 
 end
