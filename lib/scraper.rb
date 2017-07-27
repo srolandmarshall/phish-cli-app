@@ -52,15 +52,27 @@ class Scraper
       set4 = songs if set.text == "SET 4"
       encore = songs if set.text == "ENCORE"
       end
-      Setlist.new(set1, set2, set3, set4, encore)
     end
+    Setlist.new(set1, set2, set3, set4, encore)
+  end
+
+  def self.get_jams(page)
+    jams = []
+    page.css("div.tpcbox").css("div.box-body")[0].css("a").each do |jam|
+      jams << Song.find_by_name(jam.text)
+    end
+    jams
   end
 
 
   def self.scrape_show(page)
     venue = page.css("div.setlist-venue").css(".hideover768").text
     location = page.css("div.setlist-location").text
-    setlist = Setlist.new(get_setlist(page))
+    setlist = get_setlist(page)
+    date = page.css("span.setlist-date").css("a")[1].text
+    notes = page.css("div.setlist-notes").text
+    jams = get_jams(page)
+
     binding.pry
   end
 

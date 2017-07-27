@@ -15,7 +15,7 @@ class Setlist
   end
 
   def display
-
+    puts "SET 1: #{@set1}"
   end
 
   def self.all

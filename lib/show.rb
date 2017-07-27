@@ -2,7 +2,6 @@ require_relative '../config/environment.rb'
 class Show
 
   attr_accessor :venue, :city, :date, :num_sets, :notes, :rating, :jams, :tour
-  attr_reader :setlist
 
   #date should be an object with day, month, year, name
 
@@ -45,4 +44,8 @@ class Show
     setlist.show = self
   end
 
+  def setlist(setlist)
+    Setlist.display(setlist)
+  end
+  
 end
