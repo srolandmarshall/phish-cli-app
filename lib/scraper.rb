@@ -76,6 +76,11 @@ class Scraper
     Show.new(tour, date, venue, location, setlist, notes, rating, jams)
   end
 
+  def self.turn_date_into_show_link(date_string)
+    date = date_string.split("/")
+    return "http://phish.net/setlists/?year=#{date[2]}&month=#{date[0]}&day=#{date[1]}"
+  end
+
   def self.scrape_shows
 
     Tour.all.each do |tour|
@@ -90,6 +95,8 @@ class Scraper
     end
     binding.pry
   end
+
+
 
   self.scrape_songs
   self.scrape_tours
