@@ -5,8 +5,7 @@ class CommandLineInterface
   HELP_DIALOG = "This is the help dialog.\n\nKEYWORD: Use\n\nHELP: This dialog\nTOUR: Search by tour"
   PROMPT_DIALOG = "Type \'help\' to get a list of commands."
   command_in = false
-
-
+  scraper = Scraper.new
 
   def initialize
     greeting
@@ -25,16 +24,28 @@ class CommandLineInterface
     command(gets.chomp)
   end
 
+  def tour_year(year)
+    year_tours = Tour.all.select {|tour| tour.year.include?(year)}
+    puts "Tours from #{year}" if year_tours != []
+    i = 0
+    year_tours.each do |tour|
+        i+=1
+        puts "#{i}.#{tour.name}"
+    end
+    puts "Type the number of the tour you want to explore, or type \'back\' to go back:"
+    explore = gets.chomp
+    Scraper.scrape_tour(Tour.find_by_name(year_tours[explore.to_i-1].name)) if explore.to_i < year_tours.length
+
+    binding.pry
+    puts "There were no tours this year, please try again." if year_tours == []
+    tour_by_year if year_tours == []
+  end
+
   def tour_by_year
     puts "Enter the year you'd like to explore, or type \n'back\' if you want to go back to the main menu:"
     year = gets.chomp
-    year_tours = Tour.all.select {|tour| tour.year.include?(year)}
-    puts "Tours from #{year}" if year_tours != []
-    year_tours.each {|tour| puts "#{tour.name}"}
-    binding.pry
-    "There were no tours this year, please try again." if year_tours == []
-    tour_by_year if year_tours == []
-    intro if input == "back"
+    tour_year(year)
+    intro if year == "back"
   end
 
   def search_by_tour
@@ -48,7 +59,5 @@ class CommandLineInterface
     puts "Invalid input, try again."
     search_by_tour
   end
-
-  Scraper.new
 
 end

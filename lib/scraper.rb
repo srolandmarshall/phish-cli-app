@@ -21,7 +21,7 @@ class Scraper
     puts "TOURS LOADED."
   end
 
-  def scrape_tour(tour)
+  def self.scrape_tour(tour)
     page = Nokogiri::HTML(open(tour.link))
     links = page.css("div.tpcmainbox").css("a")
     links.each do |link|
@@ -50,7 +50,7 @@ class Scraper
     puts "SONGS LOADED."
   end
 
-  def get_setlist(page)
+  def self.get_setlist(page)
     set1, set2, set3, set4, encore = [],[],[],[],[]
     page.css("span.set-label").each do |set|
       songs = []
@@ -68,7 +68,7 @@ class Scraper
     Setlist.new(set1, set2, set3, set4, encore)
   end
 
-  def get_jams(page)
+  def self.get_jams(page)
     jams = []
     page.css("div.tpcbox").css("div.box-body")[0].css("a").each do |jam|
       jams << Song.find_by_name(jam.text)
@@ -76,7 +76,7 @@ class Scraper
     jams
   end
 
-  def scrape_show(page)
+  def self.scrape_show(page)
     venue = page.css("div.setlist-venue").css(".hideover768").text
     location = page.css("div.setlist-location").text
     setlist = get_setlist(page)
