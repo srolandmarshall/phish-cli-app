@@ -5,7 +5,7 @@ class Scraper
   SONGS_PAGE ||= "http://phish.net/song/?"
   SHOWS_PAGE ||= "http://phish.net/setlists/?"
 
-  def self.scrape_tours
+  def scrape_tours
     puts "LOADING TOURS..."
     page = Nokogiri::HTML(open(TOURS_PAGE))
     cells = page.css("table").first.css("td")
@@ -21,16 +21,15 @@ class Scraper
     puts "TOURS LOADED."
   end
 
-  def self.scrape_tour(tour)
+  def scrape_tour(tour)
     page = Nokogiri::HTML(open(tour.link))
     links = page.css("div.tpcmainbox").css("a")
     links.each do |link|
       scrape_show(Nokogiri::HTML(open("http://phish.net#{link["href"]}")))
     end
-    binding.pry
   end
 
-  def self.scrape_songs
+  def scrape_songs
     puts "LOADING SONGS..."
     page = Nokogiri::HTML(open(SONGS_PAGE))
     cells = page.css("td")
@@ -51,7 +50,7 @@ class Scraper
     puts "SONGS LOADED."
   end
 
-  def self.get_setlist(page)
+  def get_setlist(page)
     set1, set2, set3, set4, encore = [],[],[],[],[]
     page.css("span.set-label").each do |set|
       songs = []
@@ -69,7 +68,7 @@ class Scraper
     Setlist.new(set1, set2, set3, set4, encore)
   end
 
-  def self.get_jams(page)
+  def get_jams(page)
     jams = []
     page.css("div.tpcbox").css("div.box-body")[0].css("a").each do |jam|
       jams << Song.find_by_name(jam.text)
@@ -77,7 +76,7 @@ class Scraper
     jams
   end
 
-  def self.scrape_show(page)
+  def scrape_show(page)
     venue = page.css("div.setlist-venue").css(".hideover768").text
     location = page.css("div.setlist-location").text
     setlist = get_setlist(page)
@@ -91,12 +90,12 @@ class Scraper
   end
 
   #date input should always be YYYY-MM-DD
-  def self.get_date_page(date)
+  def get_date_page(date)
     Nokogiri::HTML(open("http://phish.net/setlists/d?#{date}"))
 
   end
 
-  def self.scrape_shows
+  def scrape_shows
 
     Tour.all.each do |tour|
       links = []
@@ -111,12 +110,10 @@ class Scraper
     binding.pry
   end
 
-
-
-  scrape_songs
-  scrape_tours
-  puts "Welcome to G-YEM, the Phish Gem.\nType \'help\' to get a list of commands."
-  # self.scrape_shows
-
+  def initialize
+    self.scrape_songs
+    self.scrape_tours
+    binding.pry
+  end
 
 end
