@@ -113,7 +113,6 @@ class Scraper
   def initialize
     self.scrape_songs
     self.scrape_tours
-    binding.pry
   end
 
 end
