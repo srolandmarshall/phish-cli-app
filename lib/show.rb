@@ -7,7 +7,7 @@ class Show
 
   @@all = []
 
-  def initialize(tour=Tour.new, date="", venue="", city="", setlist=Setlist.new, notes="", rating=1.1, jams=[])
+  def initialize(tour, date="", venue="", city="", setlist=Setlist.new, notes="", rating=1.1, jams=[])
     @date = date
     @venue = venue
     @city = city
@@ -15,6 +15,8 @@ class Show
     @notes = notes
     @rating = rating
     @jams = jams
+    @tour = tour
+    tour.add_show(self)
     @@all << self
   end
 

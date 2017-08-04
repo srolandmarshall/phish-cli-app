@@ -6,6 +6,7 @@ class Scraper
   SHOWS_PAGE ||= "http://phish.net/setlists/?"
 
   def self.scrape_tours
+    puts "LOADING TOURS..."
     page = Nokogiri::HTML(open(TOURS_PAGE))
     cells = page.css("table").first.css("td")
     i=0
@@ -17,9 +18,20 @@ class Scraper
       Tour.new(name,link,year,shows)
       i+=3
     end
+    puts "TOURS LOADED."
+  end
+
+  def self.scrape_tour(tour)
+    page = Nokogiri::HTML(open(tour.link))
+    links = page.css("div.tpcmainbox").css("a")
+    links.each do |link|
+      scrape_show(Nokogiri::HTML(open("http://phish.net#{link["href"]}")))
+    end
+    binding.pry
   end
 
   def self.scrape_songs
+    puts "LOADING SONGS..."
     page = Nokogiri::HTML(open(SONGS_PAGE))
     cells = page.css("td")
     i=0
@@ -36,6 +48,7 @@ class Scraper
       end
       i+=6
     end
+    puts "SONGS LOADED."
   end
 
   def self.get_setlist(page)
@@ -74,11 +87,13 @@ class Scraper
     jams = get_jams(page)
     tour = Tour.find_by_name(page.css("h4.bs-callout").css("a")[0].text)
     Show.new(tour, date, venue, location, setlist, notes, rating, jams)
+    puts "Scraped #{Show.all.last.date}"
   end
 
-  def self.turn_date_into_show_link(date_string)
-    date = date_string.split("/")
-    return "http://phish.net/setlists/?year=#{date[2]}&month=#{date[0]}&day=#{date[1]}"
+  #date input should always be YYYY-MM-DD
+  def self.get_date_page(date)
+    Nokogiri::HTML(open("http://phish.net/setlists/d?#{date}"))
+
   end
 
   def self.scrape_shows
@@ -98,9 +113,10 @@ class Scraper
 
 
 
-  self.scrape_songs
-  self.scrape_tours
-  self.scrape_shows
+  scrape_songs
+  scrape_tours
+  puts "Welcome to G-YEM, the Phish Gem.\nType \'help\' to get a list of commands."
+  # self.scrape_shows
 
 
 end

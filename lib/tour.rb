@@ -23,6 +23,10 @@ class Tour
     nil
   end
 
+  def add_show(show)
+    @shows << show
+  end
+
   def self.all
     @@all
   end
