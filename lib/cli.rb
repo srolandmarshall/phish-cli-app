@@ -8,10 +8,10 @@ class CommandLineInterface
   scraper = Scraper.new
 
   def initialize
-    greeting
+    intro
   end
 
-  def greeting
+  def intro
     puts "Welcome to G-YEM, the Phish Gem."
     puts PROMPT_DIALOG
     command(gets.chomp)
@@ -26,26 +26,43 @@ class CommandLineInterface
 
   def tour_year(year)
     year_tours = Tour.all.select {|tour| tour.year.include?(year)}
-    puts "Tours from #{year}" if year_tours != []
-    i = 0
-    year_tours.each do |tour|
+    if year_tours != []
+      puts "Tours from #{year}"
+      i = 0
+      year_tours.each do |tour|
         i+=1
         puts "#{i}.#{tour.name}"
+      end
+      puts "Type the number of the tour you want to explore, or type \'back\' to go back:"
+      explore = gets.chomp
+      entry = false
+      while !entry
+        if (explore.to_i < year_tours.length)&&(explore.to_i > 0)
+          Scraper.display_tour(Scraper.scrape_tour(Tour.find_by_name(year_tours[explore.to_i-1].name)))
+            entry = true
+        else
+          puts "Invalid Entry, try again."
+        end
+      end
     end
-    puts "Type the number of the tour you want to explore, or type \'back\' to go back:"
-    explore = gets.chomp
-    Scraper.scrape_tour(Tour.find_by_name(year_tours[explore.to_i-1].name)) if explore.to_i < year_tours.length
-
-    binding.pry
     puts "There were no tours this year, please try again." if year_tours == []
     tour_by_year if year_tours == []
   end
 
   def tour_by_year
-    puts "Enter the year you'd like to explore, or type \n'back\' if you want to go back to the main menu:"
-    year = gets.chomp
-    tour_year(year)
-    intro if year == "back"
+    looper = false
+     while !looper
+      puts "Enter the year you'd like to explore, or type \n'back\' if you want to go back to the main menu:"
+      year = gets.chomp
+      if (year != "")&&(year.to_i > 1982)&&(year.to_i < 2018)#eventually turn this into check for the current year FUTURE PROOFING
+        tour_year(year)
+        looper = true
+      elsif year == "back"
+        intro
+        looper = true
+      end
+      puts "Invalid year, try again."
+    end
   end
 
   def search_by_tour
@@ -54,10 +71,10 @@ class CommandLineInterface
     puts "1. By Tour Name"
     puts "2. By Year"
     input = gets.chomp.to_i
-    tour_by_year if input == 2
     tour_by_name if input == 1
+    tour_by_year if input == 2
+    intro if input == "back"
     puts "Invalid input, try again."
     search_by_tour
   end
-
 end

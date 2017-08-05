@@ -29,6 +29,12 @@ class Scraper
     end
   end
 
+  def self.display_tour(tour)
+    tour.shows.each do |show|
+      puts "#{show.date}, #{show.location}"
+    end
+  end
+
   def scrape_songs
     puts "LOADING SONGS..."
     page = Nokogiri::HTML(open(SONGS_PAGE))
