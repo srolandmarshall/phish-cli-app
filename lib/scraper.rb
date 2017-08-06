@@ -27,13 +27,9 @@ class Scraper
     links.each do |link|
       scrape_show(Nokogiri::HTML(open("http://phish.net#{link["href"]}")))
     end
+    tour
   end
 
-  def self.display_tour(tour)
-    tour.shows.each do |show|
-      puts "#{show.date}, #{show.location}"
-    end
-  end
 
   def scrape_songs
     puts "LOADING SONGS..."

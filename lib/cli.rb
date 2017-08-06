@@ -7,14 +7,14 @@ class CommandLineInterface
   command_in = false
   scraper = Scraper.new
 
-  def initialize
-    intro
-  end
-
   def intro
     puts "Welcome to G-YEM, the Phish Gem."
     puts PROMPT_DIALOG
     command(gets.chomp)
+  end
+
+  def initialize
+    intro
   end
 
   def command(string)
@@ -22,6 +22,18 @@ class CommandLineInterface
     search_by_tour if string.downcase == "tour"
     stops if string.downcase == "stop"
     command(gets.chomp)
+  end
+
+  def pick_tour(tour)
+    tour.display_tour
+    puts "Choose the number of the show you'd like to select."
+    choice = gets.chomp
+    if choice.to_i <= tour.shows.length
+      tour.shows[choice.to_i-1].display_show
+    else
+      puts "Invalid show, try again"
+      pick_tour(tour)
+    end
   end
 
   def tour_year(year)
@@ -34,12 +46,12 @@ class CommandLineInterface
         puts "#{i}.#{tour.name}"
       end
       puts "Type the number of the tour you want to explore, or type \'back\' to go back:"
-      explore = gets.chomp
       entry = false
       while !entry
-        if (explore.to_i < year_tours.length)&&(explore.to_i > 0)
-          Scraper.display_tour(Scraper.scrape_tour(Tour.find_by_name(year_tours[explore.to_i-1].name)))
-            entry = true
+      explore = gets.chomp
+        if (explore.to_i <= year_tours.length)&&(explore.to_i > 0)
+          pick_tour(Scraper.scrape_tour(Tour.find_by_name(year_tours[explore.to_i-1].name))
+          entry = true
         else
           puts "Invalid Entry, try again."
         end
@@ -50,17 +62,13 @@ class CommandLineInterface
   end
 
   def tour_by_year
-    looper = false
-     while !looper
-      puts "Enter the year you'd like to explore, or type \n'back\' if you want to go back to the main menu:"
-      year = gets.chomp
-      if (year != "")&&(year.to_i > 1982)&&(year.to_i < 2018)#eventually turn this into check for the current year FUTURE PROOFING
-        tour_year(year)
-        looper = true
-      elsif year == "back"
-        intro
-        looper = true
-      end
+    puts "Enter the year you'd like to explore, or type \n'back\' if you want to go back to the main menu:"
+    year = gets.chomp
+    if (year != "")&&(year.to_i > 1982)&&(year.to_i < 2018)#eventually turn this into check for the current year FUTURE PROOFING
+      tour_year(year)
+    elsif year == "back"
+      intro
+    else
       puts "Invalid year, try again."
     end
   end
@@ -77,4 +85,5 @@ class CommandLineInterface
     puts "Invalid input, try again."
     search_by_tour
   end
+
 end

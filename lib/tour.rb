@@ -23,6 +23,16 @@ class Tour
     nil
   end
 
+  def display_tour
+    puts self.name.upcase
+    i = 1
+    self.shows.each do |show|
+      puts "#{i}. #{show.date}, #{show.city}"
+      i+=1
+    end
+    puts "*** TOUR END ***"
+  end
+
   def add_show(show)
     @shows << show
   end
