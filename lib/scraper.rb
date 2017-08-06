@@ -60,11 +60,11 @@ class Scraper
         setlist.css("a").each do |song|
           songs << Song.find_by_name(song.text)
         end
-      set1 = songs if set.text == "SET 1"
-      set2 = songs if set.text == "SET 2"
-      set3 = songs if set.text == "SET 3"
-      set4 = songs if set.text == "SET 4"
-      encore = songs if set.text == "ENCORE"
+      set1 = songs.compact if set.text == "SET 1"
+      set2 = songs.compact if set.text == "SET 2"
+      set3 = songs.compact if set.text == "SET 3"
+      set4 = songs.compact if set.text == "SET 4"
+      encore = songs.compact if set.text == "ENCORE"
       end
     end
     Setlist.new(set1, set2, set3, set4, encore)

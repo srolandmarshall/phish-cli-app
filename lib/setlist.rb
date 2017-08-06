@@ -14,8 +14,20 @@ class Setlist
     @@all << self
   end
 
+  def song_names(set)
+    names = []
+    set.each do |song|
+      names << song.name
+    end
+    names.join(', ')
+  end
+
   def display
-    puts "SET 1: #{@set}"
+    puts "SET 1: #{song_names(@set1)}" if @set1 != []
+    puts "SET 2: #{song_names(@set2)}" if @set2 != []
+    puts "SET 3: #{song_names(@set3)}" if @set3 != []
+    puts "SET 4: #{song_names(@set4)}" if @set4 != []
+    puts "ENCORE: #{song_names(@encore)}" if @encore != []
   end
 
   def self.all

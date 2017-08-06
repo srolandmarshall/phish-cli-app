@@ -26,7 +26,7 @@ class CommandLineInterface
 
   def pick_tour(tour)
     tour.display_tour
-    puts "Choose the number of the show you'd like to select."
+    puts "Choose the number of the show you'd like to explore."
     choice = gets.chomp
     if choice.to_i <= tour.shows.length
       tour.shows[choice.to_i-1].display_show
@@ -43,14 +43,14 @@ class CommandLineInterface
       i = 0
       year_tours.each do |tour|
         i+=1
-        puts "#{i}.#{tour.name}"
+        puts "#{i}. #{tour.name}"
       end
       puts "Type the number of the tour you want to explore, or type \'back\' to go back:"
       entry = false
       while !entry
       explore = gets.chomp
         if (explore.to_i <= year_tours.length)&&(explore.to_i > 0)
-          pick_tour(Scraper.scrape_tour(Tour.find_by_name(year_tours[explore.to_i-1].name))
+          pick_tour(Scraper.scrape_tour(Tour.find_by_name(year_tours[explore.to_i-1].name)))
           entry = true
         else
           puts "Invalid Entry, try again."
