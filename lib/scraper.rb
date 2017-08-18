@@ -54,18 +54,17 @@ class Scraper
 
   def self.get_setlist(page)
     set1, set2, set3, set4, encore = [],[],[],[],[]
-    page.css("span.set-label").each do |set|
+    page.css("div.setlist-body").css('p').each do |set|
+      binding.pry
       songs = []
-      page.css("div.setlist-body").css("p").each do |setlist|
-        setlist.css("a").each do |song|
-          songs << Song.find_by_name(song.text)
-        end
-      set1 = songs.compact if set.text == "SET 1"
-      set2 = songs.compact if set.text == "SET 2"
-      set3 = songs.compact if set.text == "SET 3"
-      set4 = songs.compact if set.text == "SET 4"
-      encore = songs.compact if set.text == "ENCORE"
+      set.css("a").each do |song|
+        songs << Song.find_by_name(song.text)
       end
+      set1 = songs if set.css("span") == "SET 1"
+      set2 = songs if set.css("span") == "SET 2"
+      set3 = songs if set.css("span") == "SET 3"
+      set4 = songs if set.css("span") == "SET 4"
+      encore = songs if set.css("span") == "ENCORE"
     end
     Setlist.new(set1, set2, set3, set4, encore)
   end
