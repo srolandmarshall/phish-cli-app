@@ -5,14 +5,14 @@ class Setlist
   @@all = []
   attr_accessor :set1, :set2, :set3, :set4, :encore, :show, :soundcheck
 
-  def initialize(set1, set2, set3, set4, encore)
+  def initialize(soundcheck, set1, set2, set3, set4, encore)
     @set1 = set1
     @set2 = set2
     @set3 = set3
     @set4 = set4
     @encore = encore
     @@all << self
-    @soundcheck = ""
+    @soundcheck = soundcheck
   end
 
   def song_names(set)

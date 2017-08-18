@@ -53,20 +53,25 @@ class Scraper
   end
 
   def self.get_setlist(page)
+    soundcheck = ""
     set1, set2, set3, set4, encore = [],[],[],[],[]
+    setlist = Setlist.new(soundcheck, set1, set2, set3, set4, encore)
     page.css("div.setlist-body").css('p').each do |set|
-      binding.pry
-      songs = []
-      set.css("a").each do |song|
-        songs << Song.find_by_name(song.text)
+      if set.css("i").text.include?("Soundcheck")
+        setlist.soundcheck = set.text.strip
+      else
+        songs = []
+        set.css("a").each do |song|
+          songs << Song.find_by_name(song.text)
+        end
+        setlist.set1 = songs if set.css("span").text == "SET 1"
+        setlist.set2 = songs if set.css("span").text == "SET 2"
+        setlist.set3 = songs if set.css("span").text == "SET 3"
+        setlist.set4 = songs if set.css("span").text == "SET 4"
+        setlist.encore = songs if set.css("span").text == "ENCORE"
       end
-      set1 = songs if set.css("span") == "SET 1"
-      set2 = songs if set.css("span") == "SET 2"
-      set3 = songs if set.css("span") == "SET 3"
-      set4 = songs if set.css("span") == "SET 4"
-      encore = songs if set.css("span") == "ENCORE"
     end
-    Setlist.new(set1, set2, set3, set4, encore)
+    setlist
   end
 
   def self.get_jams(page)

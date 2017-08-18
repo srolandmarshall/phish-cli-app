@@ -53,7 +53,6 @@ class Show
   end
 
   def display_show
-    binding.pry
     puts "#{@date}"
     puts "#{@city}"
     puts "\n"
