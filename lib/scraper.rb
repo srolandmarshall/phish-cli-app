@@ -103,7 +103,7 @@ class Scraper
 
   #date input should always be YYYY-MM-DD
   def get_date_page(date)
-    Nokogiri::HTML(open("http://phish.net/setlists/d?#{date}"))
+    Nokogiri::HTML(open("http://phish.net/setlists/d?=#{date}"))
   end
 
   def scrape_shows

@@ -13,6 +13,11 @@ class CommandLineInterface
     command(gets.chomp)
   end
 
+  def repeater
+    puts "What would you like to do next?"
+    command(gets.chomp)
+  end
+
   def initialize
     intro
   end
@@ -40,11 +45,12 @@ class CommandLineInterface
     puts "Type the name of the song you'd like to learn more about"
     song = Song.find_by_name(gets.chomp)
     if song
-      song.display_song
+      song.display
     else
       puts "I couldn't find that song. Make sure you spelled it correctly!"
       song_menu
     end
+    repeater
   end
 
   def show_menu
@@ -77,8 +83,7 @@ class CommandLineInterface
     if choice.to_i <= tour.shows.length
       tour.shows[choice.to_i-1].display_show
       puts "\n"
-      puts "What would like to do? Use commands from original screen (help also works)"
-      command(gets.chomp)
+      repeater
     else
       puts "Invalid show, try again"
       pick_tour(tour)
