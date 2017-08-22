@@ -59,6 +59,9 @@ class Show
     @setlist.display
     puts "\n"
     puts "Noteable Jams: #{self.jam_names}" if jams
+    puts "\n"
+    puts "What would like to do? Use commands from original screen (help also works)"
+    CommandLineInterface.command(gets.chomp)
   end
 
 end
