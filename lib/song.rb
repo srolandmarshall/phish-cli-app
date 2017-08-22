@@ -20,7 +20,7 @@ class Song
 
   def self.find_by_name(name)
     self.all.each do |song|
-      return song if song.name == name
+      return song if song.name.downcase == name.downcase
     end
     nil
   end

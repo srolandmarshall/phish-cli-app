@@ -2,7 +2,7 @@ require_relative '../config/environment.rb'
 
 class CommandLineInterface
 
-  HELP_DIALOG = "This is the help dialog.\n\nKEYWORD: Use\n\nHELP: This dialog\nTOUR: Search by tour"
+  HELP_DIALOG = "This is the help dialog.\n\nKEYWORD: Use\n\nHELP: This dialog\nTOUR: Search by tour\nSHOW: Search by show\nSONG: Search by song"
   PROMPT_DIALOG = "Type \'help\' to get a list of commands."
   command_in = false
   scraper = Scraper.new
@@ -17,6 +17,9 @@ class CommandLineInterface
     intro
   end
 
+  def date_check(date)
+    page = Scraper.get_date_page(date)
+  end
 
 
   def by_date
@@ -33,6 +36,16 @@ class CommandLineInterface
     end
   end
 
+  def song_menu
+    puts "Type the name of the song you'd like to learn more about"
+    song = Song.find_by_name(gets.chomp)
+    if song
+      song.display_song
+    else
+      puts "I couldn't find that song. Make sure you spelled it correctly!"
+      song_menu
+    end
+  end
 
   def show_menu
     puts "Do you want to search by date or by tour?"
@@ -40,6 +53,12 @@ class CommandLineInterface
     search_by_tour if input.downcase == "tour"
     by_date if input.downcase == "date"
   end
+
+  def yem_egg
+    yems = ["What's your fee? Drive me to Firenze.", "You enjoy myself, yes?", "Wash your feet before I drive you to Firenze.", "washa uffize drive me to firenze", "water you team, in a bee-hive, i'm a sent you", "wash, you face, and drive me to Valencia", "Wasohbf woeh ejwro jeeef je ei Fndsbid.", "Watchusett fiji is sun-hived to floor antsy"]
+    puts yems.sample
+  end
+
 
   def command(string)
     puts HELP_DIALOG if string.downcase == "help"
