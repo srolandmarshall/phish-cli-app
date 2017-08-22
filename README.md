@@ -20,10 +20,9 @@ Look up show by tour year: type `tour` to browse by tour year.
 *Things that should work soon*:
 
 1. Look up song by name
-2. Look up tour by name
-3. Look up show by date
-4. Look up last played show by `lastshow`
-5. Look up most popular songs by `top10`
+2. Look up show by date
+3. Look up last played show by `lastshow`
+4. Look up most popular songs by `top10`
 
 *Things that are a stretch goal*:
 
