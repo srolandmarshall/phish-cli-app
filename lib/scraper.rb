@@ -2,7 +2,7 @@ require_relative '../config/environment.rb'
 
 class Scraper
   TOURS_PAGE ||= "http://phish.net/tour"
-  SONGS_PAGE ||= "http://phish.net/song/?"
+  SONGS_PAGE ||= "http://phish.net/song?"
   SHOWS_PAGE ||= "http://phish.net/setlists/?"
 
   def scrape_tours
@@ -36,16 +36,22 @@ class Scraper
     page = Nokogiri::HTML(open(SONGS_PAGE))
     i=0
     song_rows = page.css("tbody")
-    good_songs = song_rows.css("tr:not(.aliases)")
-    good_songs.each do |row|
-      name = row.css("td")[0].text
-      link = row.css('td')[0].css('a')[0]["href"]
-      original_artist = row.css('td')[1].text
-      times = row.css('td')[2].text
-      debut = row.css('td')[3].text
-      last = row.css('td')[4].text
-      gap = row.css('td')[5].text
-      Song.new(name,link,original_artist,times,debut,last,gap)
+    good_songs = song_rows.css("tr:not(.aliases)") & song_rows.css("tr:not(.discography)")
+    test_row = []
+    begin
+      good_songs.each do |row|
+        test_row = row
+        name = row.css("td")[0].text
+        link = row.css('td')[0].css('a')[0]["href"]
+        original_artist = row.css('td')[1].text
+        times = row.css('td')[2].text
+        debut = row.css('td')[3].text
+        last = row.css('td')[4].text
+        gap = row.css('td')[5].text
+        Song.new(name,link,original_artist,times,debut,last,gap)
+      end
+    rescue NoMethodError
+      binding.pry
     end
     puts "SONGS LOADED."
   end

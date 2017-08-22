@@ -110,7 +110,7 @@ class CommandLineInterface
     tour_by_year if year_tours == []
   end
 
-  def tour_by_year
+  def search_by_tour
     puts "Enter the year you'd like to explore, or type \n'back\' if you want to go back to the main menu:"
     year = gets.chomp
     if (year != "")&&(year.to_i > 1982)&&(year.to_i < 2018)#eventually turn this into check for the current year FUTURE PROOFING
@@ -120,21 +120,6 @@ class CommandLineInterface
     else
       puts "Invalid year, try again."
     end
-  end
-
-
-
-  def search_by_tour
-    puts "BY TOUR"
-    puts "How would you like to proceed?"
-    puts "1. By Tour Name"
-    puts "2. By Year"
-    input = gets.chomp.to_i
-    tour_by_name if input == 1
-    tour_by_year if input == 2
-    intro if input == "back"
-    puts "Invalid input, try again."
-    search_by_tour
   end
 
 end
