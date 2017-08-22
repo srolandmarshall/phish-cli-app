@@ -25,4 +25,21 @@ class Song
     nil
   end
 
+  def know_more
+    puts "\nWould you like to know more? Y/N"
+    input = gets.chomp.upcase
+    Song.scrape_song(self) if input == "Y" || input == "YES"
+    know_more if input != "N" && input != "NO"
+  end
+
+  def display
+    puts @name
+    puts "Originally by: #{@original_artist}" if @original_artist != "Phish"
+    puts "Times Played: #{@times_played}"
+    puts "Debut Date: #{@debut_date}"
+    puts "Last Played: #{@last_played}"
+    puts "Shows since last played: #{@gap}"
+    know_more
+  end
+
 end
