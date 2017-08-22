@@ -8,7 +8,7 @@ class CommandLineInterface
   scraper = Scraper.new
 
   def intro
-    puts "Welcome to G-YEM, the Phish Gem."
+    puts "Welcome to YEMGem, the unofficial Phish Gem."
     puts PROMPT_DIALOG
     command(gets.chomp)
   end
@@ -17,9 +17,36 @@ class CommandLineInterface
     intro
   end
 
+
+
+  def by_date
+    puts "Enter your date"
+    date = gets.chomp
+    begin
+      Date.parse(date)
+    rescue ArgumentError
+      puts "Invalid date, try again"
+      puts "******"
+      by_date
+    else
+      date_check(date)
+    end
+  end
+
+
+  def show_menu
+    puts "Do you want to search by date or by tour?"
+    input = gets.chomp
+    search_by_tour if input.downcase == "tour"
+    by_date if input.downcase == "date"
+  end
+
   def command(string)
     puts HELP_DIALOG if string.downcase == "help"
+    show_menu if string.downcase == "show"
+    song_menu if string.downcase == "song"
     search_by_tour if string.downcase == "tour"
+    yem_egg if string.downcase == "yem"
     stops if string.downcase == "stop"
     command(gets.chomp)
   end
@@ -72,6 +99,8 @@ class CommandLineInterface
       puts "Invalid year, try again."
     end
   end
+
+
 
   def search_by_tour
     puts "BY TOUR"
