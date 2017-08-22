@@ -24,6 +24,7 @@ class Setlist
   end
 
   def display
+    binding.pry
     puts "Soundcheck: #{@soundcheck}" if @soundcheck != ""
     puts "SET 1: #{song_names(@set1)}" if @set1 != []
     puts "SET 2: #{song_names(@set2)}" if @set2 != []

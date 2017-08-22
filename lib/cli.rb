@@ -57,6 +57,9 @@ class CommandLineInterface
     choice = gets.chomp
     if choice.to_i <= tour.shows.length
       tour.shows[choice.to_i-1].display_show
+      puts "\n"
+      puts "What would like to do? Use commands from original screen (help also works)"
+      command(gets.chomp)
     else
       puts "Invalid show, try again"
       pick_tour(tour)

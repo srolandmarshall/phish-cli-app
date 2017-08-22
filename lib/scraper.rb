@@ -34,20 +34,18 @@ class Scraper
   def scrape_songs
     puts "LOADING SONGS..."
     page = Nokogiri::HTML(open(SONGS_PAGE))
-    cells = page.css("td")
     i=0
-    while i < cells.length
-      if cells[i+2].text.to_i != 0
-        name = cells[i].text
-        link = cells[i].css("a")[0]["href"]
-        original_artist = cells[i+1].text
-        times =  cells[i+2].text.to_i
-        debut = cells[i+3].text
-        last = cells[i+4].text
-        gap = cells[i+5].text.to_i
-        Song.new(name,link,original_artist,times,debut,last,gap) # replace with find or create later
-      end
-      i+=6
+    song_rows = page.css("tbody")
+    good_songs = song_rows.css("tr:not(.aliases)")
+    good_songs.each do |row|
+      name = row.css("td")[0].text
+      link = row.css('td')[0].css('a')[0]["href"]
+      original_artist = row.css('td')[1].text
+      times = row.css('td')[2].text
+      debut = row.css('td')[3].text
+      last = row.css('td')[4].text
+      gap = row.css('td')[5].text
+      Song.new(name,link,original_artist,times,debut,last,gap)
     end
     puts "SONGS LOADED."
   end
@@ -91,14 +89,15 @@ class Scraper
     rating = page.css("div.permalink-rating").text.split(" ")[3].split("/")[0].to_f
     jams = get_jams(page)
     tour = Tour.find_by_name(page.css("h4.bs-callout").css("a")[0].text)
-    Show.new(tour, date, venue, location, setlist, notes, rating, jams)
-    puts "Scraped #{Show.all.last.date}"
+    if !Show.show_exist?(date,setlist)
+      Show.new(tour, date, venue, location, setlist, notes, rating, jams)
+      puts "Scraped #{Show.all.last.date}"
+    end
   end
 
   #date input should always be YYYY-MM-DD
   def get_date_page(date)
     Nokogiri::HTML(open("http://phish.net/setlists/d?#{date}"))
-
   end
 
   def scrape_shows
@@ -119,6 +118,7 @@ class Scraper
   def initialize
     self.scrape_songs
     self.scrape_tours
+    binding.pry
   end
 
 end

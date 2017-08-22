@@ -3,6 +3,8 @@ class Show
 
   attr_accessor :venue, :city, :date, :notes, :rating, :jams, :tour
 
+  attr_reader :setlist
+
   #date should maybe be an object with day, month, year, name if I want to do other shows on this date??
 
   @@all = []
@@ -32,11 +34,9 @@ class Show
     nil
   end
 
-  def self.find_by_name(name)
-    self.all.each do |show|
-      return show if show.name == name
-    end
-    nil
+  def self.show_exist?(date,setlist)
+    show = find_by_date(date)
+    return show.setlist.set1 == setlist.set1 if show
   end
 
   def jam_names
@@ -59,9 +59,6 @@ class Show
     @setlist.display
     puts "\n"
     puts "Noteable Jams: #{self.jam_names}" if jams
-    puts "\n"
-    puts "What would like to do? Use commands from original screen (help also works)"
-    CommandLineInterface.command(gets.chomp)
   end
 
 end
