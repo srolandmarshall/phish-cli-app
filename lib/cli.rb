@@ -23,30 +23,35 @@ class CommandLineInterface
   end
 
   def date_check(date)
-    page = Scraper.get_date_page(date)
-    if page.css("div.bs-callout").text.include?("No shows")
-      puts "No shows on this date, try again."
-      by_date
-    elsif page.css("span.setlist-date").length >= 1
-      page.css("span.setlist-date").each do |show|
-        Scraper.scrape_show(Nokogiri::HTML(open("http://phish.net#{show.css('a')[1]["href"]}"))) if show.text.include?("PHISH")
-      end
-      if page.css("span.setlist-date").length == 1
-        Show.all.last.display_show
-        repeater
-      else
-        puts "Multiple shows found, choose one:"
-        i=1
-        shows = Show.all.last(page.css("span.setlist-date").length)
-        shows.each do |show|
-          puts "#{i}. #{show.date}, #{show.city}"
-          i+=1
-        end
-        show_picker(shows)
-      end
+    if date == "1985-05-01"
+      puts "There were 5 shows this day, none had setlists and it really messes with this program. Nice try,"
+      repeater
     else
-      "No Phish shows found on this date, try again"
-      by_date
+      page = Scraper.get_date_page(date)
+      if page.css("div.bs-callout").text.include?("No shows")
+        puts "No shows on this date, try again."
+        by_date
+      elsif page.css("span.setlist-date").length >= 1
+        page.css("span.setlist-date").each do |show|
+          Scraper.scrape_show(Nokogiri::HTML(open("http://phish.net#{show.css('a')[1]["href"]}"))) if show.text.include?("PHISH")
+        end
+        if page.css("span.setlist-date").length == 1
+          Show.all.last.display_show
+          repeater
+        else
+          puts "Multiple shows found, choose one:"
+          i=1
+          shows = Show.all.last(page.css("span.setlist-date").length)
+          shows.each do |show|
+            puts "#{i}. #{show.date}, #{show.city}"
+            i+=1
+          end
+          show_picker(shows)
+        end
+      else
+        "No Phish shows found on this date, try again"
+        by_date
+      end
     end
   end
 
@@ -57,9 +62,13 @@ class CommandLineInterface
     begin
       Date.parse(date)
     rescue ArgumentError
-      puts "Invalid date, try again"
-      puts "******"
-      by_date
+      if date = "back"
+        repeater
+      else
+        puts "Invalid date, try again"
+        puts "******"
+        by_date
+      end
     else
       date_check(Date.parse(date).to_s)
     end

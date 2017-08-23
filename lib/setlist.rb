@@ -24,12 +24,12 @@ class Setlist
   end
 
   def display
-    puts "Soundcheck: #{@soundcheck} \n" if @soundcheck != ""
-    puts "SET 1: #{song_names(@set1)} \n" if @set1 != []
-    puts "SET 2: #{song_names(@set2)} \n" if @set2 != []
-    puts "SET 3: #{song_names(@set3)} \n" if @set3 != []
-    puts "SET 4: #{song_names(@set4)} \n" if @set4 != []
-    puts "ENCORE: #{song_names(@encore)}/n" if @encore != []
+    puts "Soundcheck: #{@soundcheck} \n\n" if @soundcheck != ""
+    puts "SET 1: #{song_names(@set1)} \n\n" if @set1 != []
+    puts "SET 2: #{song_names(@set2)} \n\n" if @set2 != []
+    puts "SET 3: #{song_names(@set3)} \n\n" if @set3 != []
+    puts "SET 4: #{song_names(@set4)} \n\n" if @set4 != []
+    puts "ENCORE: #{song_names(@encore)} \n\n" if @encore != []
   end
 
   def self.all

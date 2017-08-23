@@ -81,7 +81,7 @@ class Scraper
   def self.get_jams(page)
     jams = []
     page.css("div.tpcbox").css("div.box-body")[0].css("a").each do |jam|
-      jams << Song.find_by_name(jam.text)
+      jams << Song.find_by_name(jam.text) if Song.find_by_name(jam.text) 
     end
     jams
   end
