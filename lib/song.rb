@@ -2,10 +2,11 @@ require_relative '../config/environment.rb'
 class Song
 
   @@all = []
-  attr_accessor :name, :link, :original_artist, :times_played, :debut_date, :last_played, :gap
+  attr_accessor :name, :link, :original_artist, :times_played, :debut_date, :last_played, :gap, :appears_on, :aka, :rec_ver, :history, :lyrics
 
   def initialize(name="",link="",original_artist="",times_played=0,debut="", last="", gap=0)
     @name = name
+    @link = link
     @original_artist = original_artist
     @times_played = times_played
     @debut_date = debut # later, turn this into a Show using Find method
@@ -28,7 +29,7 @@ class Song
   def know_more
     puts "\nWould you like to know more? Y/N"
     input = gets.chomp.upcase
-    Song.scrape_song(self) if input == "Y" || input == "YES"
+    Scraper.scrape_song(self) if input == "Y" || input == "YES"
     know_more if input != "N" && input != "NO"
   end
 

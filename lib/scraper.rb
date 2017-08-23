@@ -30,6 +30,14 @@ class Scraper
     tour
   end
 
+  def self.scrape_song(song)
+    binding.pry
+    page = Nokogiri::HTML(open("http://phish.net#{song.link}/history"))
+    lyrics_page = Nokogiri::HTML(open("http://phish.net#{song.link}/history"))
+    if page.css("table").css("td").any? {|row| row.text.include?("Appears On")}
+      index = page.css("table").css("tr").map {|row| row.text.include?("Appears On")}.index(true)
+    end
+  end
 
   def scrape_songs
     puts "LOADING SONGS..."
@@ -81,7 +89,7 @@ class Scraper
   def self.get_jams(page)
     jams = []
     page.css("div.tpcbox").css("div.box-body")[0].css("a").each do |jam|
-      jams << Song.find_by_name(jam.text) if Song.find_by_name(jam.text) 
+      jams << Song.find_by_name(jam.text) if Song.find_by_name(jam.text)
     end
     jams
   end

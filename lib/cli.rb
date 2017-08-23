@@ -62,7 +62,7 @@ class CommandLineInterface
     begin
       Date.parse(date)
     rescue ArgumentError
-      if date = "back"
+      if date == "back"
         repeater
       else
         puts "Invalid date, try again"
