@@ -102,8 +102,12 @@ class Scraper
   end
 
   #date input should always be YYYY-MM-DD
-  def get_date_page(date)
-    Nokogiri::HTML(open("http://phish.net/setlists/d?=#{date}"))
+  def self.get_date_page(date)
+    divide = date.split("-")
+    year = divide[0]
+    month = divide[1]
+    day = divide[2]
+    Nokogiri::HTML(open("http://phish.net/setlists/?year=#{year}&month=#{month}&day=#{day}"))
   end
 
   def scrape_shows
@@ -124,7 +128,6 @@ class Scraper
   def initialize
     self.scrape_songs
     self.scrape_tours
-    binding.pry
   end
 
 end

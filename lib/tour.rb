@@ -26,6 +26,7 @@ class Tour
   def display_tour
     puts self.name.upcase
     i = 1
+    #use this for the display multiple shows, should be inherited by both classes but gonna make it work first
     self.shows.each do |show|
       puts "#{i}. #{show.date}, #{show.city}"
       i+=1

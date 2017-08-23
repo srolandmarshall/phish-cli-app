@@ -41,10 +41,15 @@ class Show
 
   def jam_names
     names = []
-    @jams.each do |jam|
-      names << jam.name
+    if @jams != []
+      @jams.each do |jam|
+        binding.pry
+        names << jam.name
+      end
+      names.join(', ')
+    else
+      "None"
     end
-    names.join(', ')
   end
 
   def setlist=(setlist)
@@ -57,7 +62,6 @@ class Show
     puts "#{@city}"
     puts "\n"
     @setlist.display
-    puts "\n"
     puts "Noteable Jams: #{self.jam_names}" if jams
   end
 

@@ -24,6 +24,30 @@ class CommandLineInterface
 
   def date_check(date)
     page = Scraper.get_date_page(date)
+    if page.css("div.bs-callout").text.include?("No shows")
+      puts "No shows on this date, try again."
+      by_date
+    elsif page.css("span.setlist-date").length >= 1
+      page.css("span.setlist-date").each do |show|
+        Scraper.scrape_show(Nokogiri::HTML(open("http://phish.net#{show.css('a')[1]["href"]}"))) if show.text.include?("PHISH")
+      end
+      if page.css("span.setlist-date").length == 1
+        Show.all.last.display_show
+        repeater
+      else
+        puts "Multiple shows found, choose one:"
+        i=1
+        shows = Show.all.last(page.css("span.setlist-date").length)
+        shows.each do |show|
+          puts "#{i}. #{show.date}, #{show.city}"
+          i+=1
+        end
+        show_picker(shows)
+      end
+    else
+      "No Phish shows found on this date, try again"
+      by_date
+    end
   end
 
 
@@ -37,7 +61,7 @@ class CommandLineInterface
       puts "******"
       by_date
     else
-      date_check(date)
+      date_check(Date.parse(date).to_s)
     end
   end
 
@@ -76,18 +100,22 @@ class CommandLineInterface
     command(gets.chomp)
   end
 
-  def pick_tour(tour)
-    tour.display_tour
+  def show_picker(shows)
     puts "Choose the number of the show you'd like to explore."
     choice = gets.chomp
-    if choice.to_i <= tour.shows.length
-      tour.shows[choice.to_i-1].display_show
+    if choice.to_i <= shows.length
+      shows[choice.to_i-1].display_show
       puts "\n"
       repeater
     else
       puts "Invalid show, try again"
       pick_tour(tour)
     end
+  end
+
+  def pick_tour(tour)
+    tour.display_tour
+    show_picker(tour.shows)
   end
 
   def tour_year(year)

@@ -24,13 +24,12 @@ class Setlist
   end
 
   def display
-    binding.pry
-    puts "Soundcheck: #{@soundcheck}" if @soundcheck != ""
-    puts "SET 1: #{song_names(@set1)}" if @set1 != []
-    puts "SET 2: #{song_names(@set2)}" if @set2 != []
-    puts "SET 3: #{song_names(@set3)}" if @set3 != []
-    puts "SET 4: #{song_names(@set4)}" if @set4 != []
-    puts "ENCORE: #{song_names(@encore)}" if @encore != []
+    puts "Soundcheck: #{@soundcheck} \n" if @soundcheck != ""
+    puts "SET 1: #{song_names(@set1)} \n" if @set1 != []
+    puts "SET 2: #{song_names(@set2)} \n" if @set2 != []
+    puts "SET 3: #{song_names(@set3)} \n" if @set3 != []
+    puts "SET 4: #{song_names(@set4)} \n" if @set4 != []
+    puts "ENCORE: #{song_names(@encore)}/n" if @encore != []
   end
 
   def self.all
