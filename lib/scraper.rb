@@ -99,6 +99,7 @@ class Scraper
     rescue NoMethodError
       binding.pry
     end
+    Song.all.each {|song| scrape_song(song)}
     puts "SONGS LOADED."
   end
 
