@@ -37,6 +37,7 @@ class Song
   end
 
   def display
+    puts "\n"
     puts @name
     puts "Originally by: #{@original_artist}" if @original_artist != "Phish"
     puts "Times Played: #{@times_played}"
@@ -47,5 +48,7 @@ class Song
   end
 
   def display_exp
+    puts "Appears on: #{@appears_on}"
+  end
 
 end

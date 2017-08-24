@@ -39,9 +39,11 @@ class Scraper
   end
 
   def self.scrape_song(song)
-    attr_titles = ["Original Album", "Appears On", "Music/Lyrics", "Vocals", "Recommended Versions"]
+    attr_titles = ["Original Album", "Appears On", "Music/Lyrics", "Vocals", "Also Known As", "Recommended Versions"]
     page = Nokogiri::HTML(open("http://phish.net#{song.link}/history"))
     lyrics_page = Nokogiri::HTML(open("http://phish.net#{song.link}/history"))
+    song.lyrics = lyrics_page.css("blockquote.bq").text
+    song.history = page.css("blockquote.song-history").text
     attr_titles.each do |attrib|
       if song_has_attr(page, attrib)
         binding.pry
@@ -51,8 +53,9 @@ class Scraper
         song.original_album = val.text if attrib == "Original Album"
         song.musandlyr = val.text if attrib == "Music/Lyrics"
         song.vocals = val.text if attrib ==  "Vocals"
+        song.aka = val.text if attrib == "Also Known As"
 
-        if attrib = "Appears On"
+        if attrib == "Appears On"
           albums = []
           page.css("table").css("td")[index+1].css("img").each do |img|
             albums << img["title"]
@@ -60,7 +63,7 @@ class Scraper
           song.appears_on = albums.join(", ")
         end
 
-        if attrib = "Recommended Versions"
+        if attrib == "Recommended Versions"
           shows = []
           page.css("table").css("td")[index+1].css("a").each do |link|
             shows << link.text
@@ -71,6 +74,7 @@ class Scraper
 
       end
     end
+
   end
 
   def scrape_songs
