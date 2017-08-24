@@ -30,7 +30,6 @@ class Song
     puts "\nWould you like to know more? Y/N"
     input = gets.chomp.upcase
     if input == "Y" || input == "YES"
-      Scraper.scrape_song(self)
       self.display_exp
     end
     know_more if input != "N" && input != "NO"
@@ -40,6 +39,7 @@ class Song
     puts "\n"
     puts @name
     puts "Originally by: #{@original_artist}" if @original_artist != "Phish"
+    puts "Also known as: #{@aka}" if @aka
     puts "Times Played: #{@times_played}"
     puts "Debut Date: #{@debut_date}"
     puts "Last Played: #{@last_played}"
@@ -48,7 +48,19 @@ class Song
   end
 
   def display_exp
-    puts "Appears on: #{@appears_on}"
+    puts "Original album: #{@original_album}" if @original_album
+    puts "Appears on: #{@appears_on}" if @appears_on
+    puts "Recommended versions: #{@rec_ver}" if @rec_ver
+    puts "Music and Lyrics by: #{@musandlyr}" if @musandlyr
+    puts "Vocals by: #{@vocals}" if @vocals
+  end
+
+  def display_history
+    puts @history
+  end
+
+  def display_lyrics
+    puts @lyrics
   end
 
 end
