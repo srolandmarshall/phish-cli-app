@@ -57,7 +57,7 @@ class CommandLineInterface
 
 
   def by_date
-    puts "Enter your date"
+    puts "Enter your date in YYYY-MM-DD format"
     date = gets.chomp
     begin
       Date.parse(date)

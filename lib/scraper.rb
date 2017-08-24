@@ -61,7 +61,12 @@ class Scraper
         end
 
         if attrib = "Recommended Versions"
-
+          shows = []
+          page.css("table").css("td")[index+1].css("a").each do |link|
+            shows << link.text
+            #eventually make this work with find_by_date to fill this with shows and then have it output their .date_parse
+          end
+          song.rec_ver = shows.join(", ")
         end
 
       end
