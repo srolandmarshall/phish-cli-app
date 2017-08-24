@@ -16,11 +16,11 @@ I plan on doing this using Nokogiri and Open-URI, though I may need a few other 
 Currently still in development. Things that are working are:
 
 Look up show by tour year: type `tour` to browse by tour year.
+Look up song by name: `song` then type the song title. Type `Yes` for extended song info (albums, vocals, recommended versions) `lyrics` or `history` at the `"Do you want to know more?"` prompt for those goodies.
+Look up show by date: type `show` at the menu to get a choice to search by tour or by `date`. Type in the date in either of the listed formats and be shown a show on that date if it exists. Still works a little wonky if two+ shows were played on that day.
 
 *Things that should work soon*:
 
-1. Look up song by name
-2. Look up show by date
 3. Look up last played show by `lastshow`
 4. Look up most popular songs by `top10`
 
