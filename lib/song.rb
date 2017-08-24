@@ -2,7 +2,7 @@ require_relative '../config/environment.rb'
 class Song
 
   @@all = []
-  attr_accessor :name, :link, :original_artist, :times_played, :debut_date, :last_played, :gap, :appears_on, :aka, :rec_ver, :history, :lyrics
+  attr_accessor :name, :link, :original_artist, :times_played, :debut_date, :last_played, :gap, :appears_on, :aka, :rec_ver, :history, :lyrics, :musandlyr, :vocals, :original_album
 
   def initialize(name="",link="",original_artist="",times_played=0,debut="", last="", gap=0)
     @name = name
@@ -29,7 +29,10 @@ class Song
   def know_more
     puts "\nWould you like to know more? Y/N"
     input = gets.chomp.upcase
-    Scraper.scrape_song(self) if input == "Y" || input == "YES"
+    if input == "Y" || input == "YES"
+      Scraper.scrape_song(self)
+      self.display_exp
+    end
     know_more if input != "N" && input != "NO"
   end
 
@@ -42,5 +45,7 @@ class Song
     puts "Shows since last played: #{@gap}"
     know_more
   end
+
+  def display_exp
 
 end

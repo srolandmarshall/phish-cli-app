@@ -30,12 +30,41 @@ class Scraper
     tour
   end
 
+  def self.song_has_attr(page, title)
+    page.css("table").css("td").any? {|row| row.text.include?("#{title}")}
+  end
+
+  def self.song_attr_index(page, title)
+    index = page.css("table").css("td").map {|row| row.text.include?("#{title}")}.index(true)
+  end
+
   def self.scrape_song(song)
-    binding.pry
+    attr_titles = ["Original Album", "Appears On", "Music/Lyrics", "Vocals", "Recommended Versions"]
     page = Nokogiri::HTML(open("http://phish.net#{song.link}/history"))
     lyrics_page = Nokogiri::HTML(open("http://phish.net#{song.link}/history"))
-    if page.css("table").css("td").any? {|row| row.text.include?("Appears On")}
-      index = page.css("table").css("tr").map {|row| row.text.include?("Appears On")}.index(true)
+    attr_titles.each do |attrib|
+      if song_has_attr(page, attrib)
+        binding.pry
+        index = song_attr_index(page, attrib)
+        val = page.css("table").css("td")[index+1]
+
+        song.original_album = val.text if attrib == "Original Album"
+        song.musandlyr = val.text if attrib == "Music/Lyrics"
+        song.vocals = val.text if attrib ==  "Vocals"
+
+        if attrib = "Appears On"
+          albums = []
+          page.css("table").css("td")[index+1].css("img").each do |img|
+            albums << img["title"]
+          end
+          song.appears_on = albums.join(", ")
+        end
+
+        if attrib = "Recommended Versions"
+
+        end
+
+      end
     end
   end
 
