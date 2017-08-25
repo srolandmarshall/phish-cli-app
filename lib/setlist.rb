@@ -24,7 +24,7 @@ class Setlist
   end
 
   def display
-    puts "Soundcheck: #{@soundcheck} \n\n" if @soundcheck != ""
+    puts {@soundcheck} if @soundcheck != ""
     puts "SET 1: #{song_names(@set1)} \n\n" if @set1 != []
     puts "SET 2: #{song_names(@set2)} \n\n" if @set2 != []
     puts "SET 3: #{song_names(@set3)} \n\n" if @set3 != []
