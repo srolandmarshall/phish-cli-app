@@ -13,7 +13,11 @@ I plan on doing this using Nokogiri and Open-URI, though I may need a few other 
 
 # Development Status
 
-Currently still in development. Things that are working are:
+Currently still in development, current release is Alpha .1
+
+https://youtu.be/j0UGw3qW9qs
+
+*Things that are working are:*
 
 Look up show by tour year: type `tour` to browse by tour year.
 Look up song by name: `song` then type the song title. Type `Yes` for extended song info (albums, vocals, recommended versions) `lyrics` or `history` at the `"Do you want to know more?"` prompt for those goodies.
