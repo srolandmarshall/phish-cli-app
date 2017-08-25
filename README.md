@@ -9,13 +9,23 @@
 
 I really like Phish, and would really like to make something using them as one of my projects. They have a great fan-made site available at http://phish.net that pain-stakingly catalogues every show (in their known history) and their setlists. I thought it would be cool to be able to browse this using CLI and to have a few nifty nuggets as well like `lastshow` printing out the setlist from their most recent show.
 
-I plan on doing this using Nokogiri and Open-URI, though I may need a few other things along the way.
+# How to Use
+
+1. Open terminal
+2. `cd` to the phish-cli-app folder
+3. `bundle install` to get necessary gems (not that many)
+4. `ruby bin/run` to start the app
+
+EASY!
+
 
 # Development Status
 
 Currently still in development, current release is Alpha .1
 
 https://youtu.be/j0UGw3qW9qs
+
+# Commands
 
 *Things that are working are:*
 
