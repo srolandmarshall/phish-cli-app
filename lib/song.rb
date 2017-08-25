@@ -27,12 +27,11 @@ class Song
   end
 
   def know_more
-    puts "\nWould you like to know more? Y/N"
+    puts "\nWould you like to know more?"
     input = gets.chomp.upcase
-    if input == "Y" || input == "YES"
-      self.display_exp
-    end
-    know_more if input != "N" && input != "NO"
+    self.display_exp if input == "Y" || input == "YES"
+    display_lyrics if input.downcase == "lyrics"
+    display_history if input.downcase == "history"
   end
 
   def display
@@ -48,19 +47,23 @@ class Song
   end
 
   def display_exp
+    Scraper.scrape_song(self)
     puts "Original album: #{@original_album}" if @original_album
     puts "Appears on: #{@appears_on}" if @appears_on
     puts "Recommended versions: #{@rec_ver}" if @rec_ver
     puts "Music and Lyrics by: #{@musandlyr}" if @musandlyr
     puts "Vocals by: #{@vocals}" if @vocals
+    know_more
   end
 
   def display_history
     puts @history
+    know_more
   end
 
   def display_lyrics
     puts @lyrics
+    know_more
   end
 
 end

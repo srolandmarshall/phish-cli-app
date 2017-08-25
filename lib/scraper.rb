@@ -42,11 +42,11 @@ class Scraper
     attr_titles = ["Original Album", "Appears On", "Music/Lyrics", "Vocals", "Also Known As", "Recommended Versions"]
     page = Nokogiri::HTML(open("http://phish.net#{song.link}/history"))
     lyrics_page = Nokogiri::HTML(open("http://phish.net#{song.link}/history"))
-    song.lyrics = lyrics_page.css("blockquote.bq").text
+    binding.pry
+    song.lyrics = lyrics_page.css("blockquote").text
     song.history = page.css("blockquote.song-history").text
     attr_titles.each do |attrib|
       if song_has_attr(page, attrib)
-        binding.pry
         index = song_attr_index(page, attrib)
         val = page.css("table").css("td")[index+1]
 
@@ -99,8 +99,15 @@ class Scraper
     rescue NoMethodError
       binding.pry
     end
-    Song.all.each {|song| scrape_song(song)}
+    # below drags in all song extra info
+    # scrape_songs_all
     puts "SONGS LOADED."
+  end
+
+  def scrape_songs_all
+    puts "EXTENDED SONG INFO LOADING"
+    Song.all.each {|song| scrape_song(song)}
+    puts "EXTENDED INFO LOADED"
   end
 
   def self.get_setlist(page)
