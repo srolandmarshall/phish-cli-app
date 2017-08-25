@@ -29,14 +29,14 @@ https://youtu.be/j0UGw3qW9qs
 
 *Things that are working are:*
 
-Look up show by tour year: type `tour` to browse by tour year.
-Look up song by name: `song` then type the song title. Type `Yes` for extended song info (albums, vocals, recommended versions) `lyrics` or `history` at the `"Do you want to know more?"` prompt for those goodies.
-Look up show by date: type `show` at the menu to get a choice to search by tour or by `date`. Type in the date in either of the listed formats and be shown a show on that date if it exists. Still works a little wonky if two+ shows were played on that day.
+1. Look up show by tour year: type `tour` to browse by tour year.
+2. Look up song by name: `song` then type the song title. Type `Yes` for extended song info (albums, vocals, recommended versions) `lyrics` or `history` at the `"Do you want to know more?"` prompt for those goodies.
+3. Look up show by date: type `show` at the menu to get a choice to search by tour or by `date`. Type in the date in either of the listed formats and be shown a show on that date if it exists. Still works a little wonky if two+ shows were played on that day.
 
 *Things that should work soon*:
 
-3. Look up last played show by `lastshow`
-4. Look up most popular songs by `top10`
+1. Look up last played show by `lastshow`
+2. Look up most popular songs by `top10`
 
 *Things that are a stretch goal*:
 
