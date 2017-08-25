@@ -8,7 +8,7 @@ class CommandLineInterface
   scraper = Scraper.new
 
   def intro
-    puts "Welcome to YEMGem, the unofficial Phish Gem."
+    puts "Welcome to YEMGem , the unofficial Phish Gem."
     puts PROMPT_DIALOG
     command(gets.chomp)
   end
@@ -101,6 +101,7 @@ class CommandLineInterface
 
   def command(string)
     puts HELP_DIALOG if string.downcase == "help"
+    puts "Alpha .1" == "version"
     show_menu if string.downcase == "show"
     song_menu if string.downcase == "song"
     search_by_tour if string.downcase == "tour"
