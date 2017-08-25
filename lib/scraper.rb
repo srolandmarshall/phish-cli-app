@@ -41,8 +41,7 @@ class Scraper
   def self.scrape_song(song)
     attr_titles = ["Original Album", "Appears On", "Music/Lyrics", "Vocals", "Also Known As", "Recommended Versions"]
     page = Nokogiri::HTML(open("http://phish.net#{song.link}/history"))
-    lyrics_page = Nokogiri::HTML(open("http://phish.net#{song.link}/history"))
-    binding.pry
+    lyrics_page = Nokogiri::HTML(open("http://phish.net#{song.link}/lyrics"))
     song.lyrics = lyrics_page.css("blockquote").text
     song.history = page.css("blockquote.song-history").text
     attr_titles.each do |attrib|
@@ -99,7 +98,7 @@ class Scraper
     rescue NoMethodError
       binding.pry
     end
-    # below drags in all song extra info
+    # below drags in all song extra info. use in the future when computers are stronger and internet is faster.
     # scrape_songs_all
     puts "SONGS LOADED."
   end
@@ -165,6 +164,7 @@ class Scraper
   end
 
   def scrape_shows
+    #this code scrapes every show Phish has ever played - 1600+ shows. Use caution, not fully developed. Took 52 mins in 2017 on an i7 with Cable internet.
 
     Tour.all.each do |tour|
       links = []

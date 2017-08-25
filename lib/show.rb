@@ -43,7 +43,6 @@ class Show
     names = []
     if @jams != []
       @jams.each do |jam|
-        binding.pry
         names << jam.name
       end
       names.join(', ')
