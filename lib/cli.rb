@@ -101,7 +101,7 @@ class CommandLineInterface
 
   def command(string)
     puts HELP_DIALOG if string.downcase == "help"
-    puts "Alpha .1" == "version"
+    puts "Alpha .1" if string.downcase == "version"
     show_menu if string.downcase == "show"
     song_menu if string.downcase == "song"
     search_by_tour if string.downcase == "tour"
