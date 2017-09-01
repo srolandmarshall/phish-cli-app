@@ -98,6 +98,10 @@ class CommandLineInterface
     puts yems.sample
   end
 
+  def stops
+    abort("Until the next show!")
+  end
+
 
   def command(string)
     puts HELP_DIALOG if string.downcase == "help"
