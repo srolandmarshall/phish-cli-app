@@ -2,7 +2,7 @@ require_relative '../config/environment.rb'
 
 class CommandLineInterface
 
-  HELP_DIALOG = "This is the help dialog.\n\nKEYWORD: Use\n\nHELP: This dialog\nTOUR: Search by tour\nSHOW: Search by show\nSONG: Search by song"
+  HELP_DIALOG = "This is the help dialog.\n\nKEYWORD: Use\n\nHELP: This dialog\nTOUR: Search by tour\nSHOW: Search by show\nSONG: Search by song\nSTOP: Ends the program"
   PROMPT_DIALOG = "Type \'help\' to get a list of commands."
   command_in = false
   scraper = Scraper.new
@@ -96,6 +96,10 @@ class CommandLineInterface
   def yem_egg
     yems = ["What's your fee? Drive me to Firenze.", "You enjoy myself, yes?", "Wash your feet before I drive you to Firenze.", "washa uffize drive me to firenze", "water you team, in a bee-hive, i'm a sent you", "wash, you face, and drive me to Valencia", "Wasohbf woeh ejwro jeeef je ei Fndsbid.", "Watchusett fiji is sun-hived to floor antsy"]
     puts yems.sample
+  end
+
+  def stops
+    abort("Until the next show!")
   end
 
 
