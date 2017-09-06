@@ -42,4 +42,12 @@ class Tour
     @@all
   end
 
+  def self.tours_after(year)
+    @@all.select {|tour| tour.year.to_i > year}
+  end
+
+  def self.tours_between(year_one,year_two)
+    @@all.select {|tour| (tour.year.to_i <= year_two) && (tour.year.to_i >= year_one)}
+  end
+
 end

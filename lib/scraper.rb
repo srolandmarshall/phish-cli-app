@@ -14,6 +14,7 @@ class Scraper
       name = cells[i].text
       link = cells[i].css("a").first["href"]
       year = cells[i+1].text
+      #fix ^ this, it's pulling in the wrong info
       shows = cells[i+2].text.split(" ")[0].to_i
       Tour.new(name,link,year,shows)
       i+=3
