@@ -1,4 +1,4 @@
-# Sam's Phish Gem
+# YEMGem - The Unofficial Phish Gem
 
 # Objectives
 
