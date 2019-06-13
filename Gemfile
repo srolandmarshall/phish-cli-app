@@ -2,6 +2,6 @@
 source "https://rubygems.org"
 
 gem 'pry'
-gem 'nokogiri'
+gem "nokogiri", ">= 1.8.5"
 gem 'rspec'
 gem 'require_all'
